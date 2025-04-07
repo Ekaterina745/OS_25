@@ -1,0 +1,35 @@
+Процессы в ОС GNU/Linux 
+каждый процесс имеет свой собственный идентификатор.
+Получить значение идентификатора процесса можно припомощи вызова getpid()
+Идентификатор родительского процесса возвращается системным вызовом getppid()
+
+Программа, выводящая на экран идентификаторы текущего и родительского процессов:
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+int main() {
+        pid_t prid, parentprid;
+        prid = getpid();
+        parentprid = getppid();
+        printf("Ид. текущего процесса: %d\n Ид. родительского процесса %d\n", prid, parentprid);
+        return 0;
+}
+
+
+filushina@alexandr-Aspire-Z5751:~/OS_25$ ps
+    PID TTY          TIME CMD
+  12875 pts/6    00:00:00 bash
+  13756 pts/6    00:00:00 ps
+filushina@alexandr-Aspire-Z5751:~/OS_25$ vim pr003.c
+filushina@alexandr-Aspire-Z5751:~/OS_25$ filushina@alexandr-Aspire-Z5751:~/OS_25$ gcc pr003.c -o pr003.out
+filushina@alexandr-Aspire-Z5751:~/OS_25$ ./pr003.out
+Ид. текущего процесса: 14304
+ Ид. родительского процесса 12875
+
+родительским процессом для запущенной программы является командная оболочка bash, поэтому ее id совпадает с id родительского процесса
+
+filushina@alexandr-Aspire-Z5751:~/OS_25$ ./pr003.out
+Ид. текущего процесса: 14734
+ Ид. родительского процесса 12875
+После второго запуска программа меняет id текущего процесса, так как предыдущий процесс уже завершился  
